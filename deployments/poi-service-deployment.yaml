@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: poi-service-deployment
+  labels:
+    app: poi-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: poi-service
+  template:
+    metadata:
+      labels:
+        app: poi-service
+    spec:
+      containers:
+      - name: poi-service
+        image: registryqjy5952.azurecr.io/poi:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
+        env:
+          - name: SQL_USER
+            value: sqladminqJy5952
+          - name: SQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sqlserversecret
+                key: SQL_PASSWORD
+          - name: SQL_SERVER
+            value: sqlserverqjy5952.database.windows.net
+          - name: SQL_DBNAME
+            value: mydrivingDB
+          - name: ASPNETCORE_ENVIRONMENT
+            value: Production
+        resources:
+          requests:
+            cpu: 250m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
