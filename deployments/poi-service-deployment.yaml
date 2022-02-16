@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: poi-service-deployment
-  namespace: production
+  namespace: api
   labels:
     app: poi-service
 spec:
@@ -21,13 +21,17 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 80
+        volumeMounts:
+        - name: secrets-store01-inline
+          mountPath: "/mnt/secrets-store"
+          readOnly: true
         env:
           - name: SQL_USER
             value: sqladminqJy5952
           - name: SQL_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: sqlserversecret
+                name: sqlfromazure
                 key: SQL_PASSWORD
           - name: SQL_SERVER
             value: sqlserverqjy5952.database.windows.net
@@ -42,3 +46,10 @@ spec:
           limits:
             cpu: 500m
             memory: 512Mi
+      volumes:
+      - name: secrets-store01-inline
+        csi:
+          driver: secrets-store.csi.k8s.io
+          readOnly: true
+          volumeAttributes:
+            secretProviderClass: "azure-kvname-user-msi"
