@@ -1,0 +1,15 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: web-writer-ref
+  namespace: web
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: edit
+subjects:
+- kind: Group
+  namespace: web
+  name: 2b491a9d-73eb-4ad5-ad90-6ca93f5e8a7d
+
+

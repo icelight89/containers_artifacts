@@ -1,0 +1,15 @@
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: api-reader-ref
+  namespace: api
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: view
+subjects:
+- kind: Group
+  namespace: api
+  name: 2b491a9d-73eb-4ad5-ad90-6ca93f5e8a7d
+
+
