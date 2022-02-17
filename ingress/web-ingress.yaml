@@ -1,12 +1,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: my-driving-ingress
+  name: web-ingress
+  namespace: web
   annotations:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-  - host: tripviewer.team5.openhack
+  - host: 20.67.214.219.nip.io
     http:
       paths:
       - backend:
@@ -15,18 +16,18 @@ spec:
             port: 
               number: 80
         path: /
-        pathType: Prefix
+        pathType: Exact
       - backend:
           service:
-            name: poi
+            name: tripviewer
             port: 
               number: 80
-        path: /api/poi
-        pathType: Prefix
+        path: /Trip
+        pathType: Exact
       - backend:
           service:
-            name: poi
+            name: tripviewer
             port: 
               number: 80
-        path: /api/doc/poi
-        pathType: Prefix
+        path: /UserProfile
+        pathType: Exact
